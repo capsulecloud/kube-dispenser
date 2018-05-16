@@ -1,0 +1,24 @@
+{{define "content"}}
+<form class="ui form" action="/clusters" method="post">
+<div class="field">
+    <label>CLUSTER_ID</label>
+    <input type="text" name="cluster-id" placeholder="your-name">
+</div>
+<button class="ui button" type="submit">Apply</button>
+</form>
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>CLUSTER_ID</th>
+            <th>CREATED</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        {{.test}}
+        </tr>
+    </tbody>    
+</table>
+{{end}}
