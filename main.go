@@ -31,7 +31,7 @@ func main() {
 // GET /
 func clustersGet(w http.ResponseWriter, r *http.Request) {
 	// out, _ := exec.Command("docker", "ps", "-a", "-f", "ancestor=capsulecloud/kube-factory").Output()
-	out, _ := exec.Command("docker", "ps", "-a", "--format", "<td>{{.Names}}</td><td>{{.CreatedAt}}</td><td>{{.Status}}</td><td><form action=\"/clusters/{{.Names}}\" method=\"post\" class=\"ui center aligned\"><button class=\"ui red button\" type=\"submit\">Delete</button></form></td>").Output()
+	out, _ := exec.Command("docker", "ps", "-a", "-f", "ancestor=capsulecloud/kube-factory", "--format", "<td>{{.Names}}</td><td>{{.CreatedAt}}</td><td>{{.Status}}</td><td><form action=\"/clusters/{{.Names}}\" method=\"post\" class=\"ui center aligned\"><button class=\"ui red button\" type=\"submit\">Delete</button></form></td>").Output()
 	print(string(out))
 	executeTemplate(w, "template/list.html", map[string]interface{}{"test": template.HTML(strings.Replace(string(out), "\n", "<br/>", -1))})
 }
