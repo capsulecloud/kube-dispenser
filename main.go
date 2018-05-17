@@ -22,7 +22,7 @@ func main() {
 	r.HandleFunc("/", clustersGet)
 	r.HandleFunc("/clusters", clustersPost).Methods("POST")
 	r.HandleFunc("/clusters/{id}", clusterDelete).Methods("POST")
-	r.HandleFunc("/cluster/{id}", clusterGet)
+	r.HandleFunc("/clusters/{id}", clusterGet)
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir(dir))))
 
 	fmt.Println("Listening on :80")
@@ -49,13 +49,13 @@ func clustersPost(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
-// GET /cluster/:id
+// GET /clusters/:id
 func clusterGet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	clusterID := vars["id"]
 	fmt.Println(clusterID)
 	out, _ := exec.Command("docker", "logs", clusterID).Output()
-	executeTemplate(w, "template/show.html", map[string]interface{}{"data": strings.Replace(string(out), "\n", "<br/>", -1)})
+	executeTemplate(w, "template/show.html", map[string]interface{}{"data": template.HTML(strings.Replace(string(out), "\n", "<br/>", -1))})
 }
 
 // DELETE /clusters/:id
