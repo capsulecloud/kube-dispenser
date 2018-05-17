@@ -31,7 +31,7 @@ func main() {
 
 // GET /
 func clustersGet(w http.ResponseWriter, r *http.Request) {
-	out, _ := exec.Command("docker", "ps", "-a", "-f", "ancestor=capsulecloud/kube-factory", "--format", "<td><a href=\"/clusters/{{.Names}}\">{{.Names}}</a></td><td>{{.CreatedAt}}</td><td>{{.Status}}</td><td><form action=\"/clusters/{{.Names}}\" method=\"post\" class=\"ui center aligned\"><button class=\"ui red button\" type=\"submit\">Delete</button></form></td>").Output()
+	out, _ := exec.Command("docker", "ps", "-a", "-f", "ancestor=capsulecloud/kube-factory", "--format", "<tr><td><a href=\"/clusters/{{.Names}}\">{{.Names}}</a></td><td>{{.CreatedAt}}</td><td>{{.Status}}</td><td><form action=\"/clusters/{{.Names}}\" method=\"post\" class=\"ui center aligned\"><button class=\"ui red button\" type=\"submit\">Delete</button></form></td></tr>").Output()
 	print(string(out))
 	executeTemplate(w, "template/list.html", map[string]interface{}{"data": template.HTML(strings.Replace(string(out), "\n", "<br/>", -1))})
 }
@@ -88,5 +88,5 @@ func randomString(n int) string {
 	for i := range b {
 		b[i] = letter[rand.Intn(len(letter))]
 	}
-	return string(b)
+	return strings.ToLower(string(b))
 }
